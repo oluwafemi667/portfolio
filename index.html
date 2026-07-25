@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oluwafemi Ajayi, Software Engineer</title>
+<meta name="description" content="Oluwafemi Ajayi builds full-stack, AI-integrated products, from payment infrastructure to health-tech. Open to freelance engagements and collaborations.">
+<meta property="og:title" content="Oluwafemi Ajayi, Software Engineer">
+<meta property="og:description" content="Full-stack engineer building AI-integrated products.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav class="nav">
+  <a href="#top" class="nav__mark">OA</a>
+  <div class="nav__links">
+    <a href="#work" data-cursor="link">Work</a>
+    <a href="#practice" data-cursor="link">Practice</a>
+    <a href="#contact" data-cursor="link">Contact</a>
+  </div>
+  <a href="#contact" class="nav__cta" data-cursor="link">Start a project</a>
+</nav>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <canvas id="heroCanvas" class="hero__canvas"></canvas>
+    <div class="hero__inner">
+      <p class="eyebrow" data-reveal>Full-Stack Engineering · Systems · Applied AI</p>
+      <h1 class="hero__title">
+        <span class="line" data-reveal>Full-stack software</span>
+        <span class="line" data-reveal>engineer. I build the</span>
+        <span class="line" data-reveal>systems behind the UI.</span>
+      </h1>
+      <p class="hero__sub" data-reveal>
+        Oluwafemi Ajayi. Next.js and TypeScript on the front, Supabase and
+        Postgres underneath, Python and plain HTML/CSS/JS when that's the
+        right call instead. Selected work below.
+      </p>
+      <div class="hero__actions" data-reveal>
+        <a href="#work" class="btn btn--primary" data-magnetic>
+          <span>See the work</span>
+        </a>
+        <a href="/Oluwafemi_Ajayi_Resume.docx" class="btn btn--ghost" data-magnetic>
+          <span>Download résumé</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero__scroll">
+      <span></span>
+      <p>scroll</p>
+    </div>
+  </section>
+
+  <!-- ============ SIGNAL STRIP ============ -->
+  <section class="strip">
+    <div class="strip__track">
+      <span>JavaScript</span><span>TypeScript</span><span>Python</span><span>Next.js</span>
+      <span>React</span><span>HTML/CSS</span><span>Node.js</span><span>Supabase</span>
+      <span>PostgreSQL</span><span>Redis</span><span>REST APIs</span><span>GraphQL</span>
+      <span>Docker</span><span>CI/CD</span><span>System Design</span><span>Testing</span>
+      <span>AWS</span><span>Microservices</span><span>Git</span><span>OAuth2</span>
+      <span>Webhooks</span><span>Gemini API</span><span>SQL Optimization</span>
+      <span>JavaScript</span><span>TypeScript</span><span>Python</span><span>Next.js</span>
+      <span>React</span><span>HTML/CSS</span><span>Node.js</span><span>Supabase</span>
+      <span>PostgreSQL</span><span>Redis</span><span>REST APIs</span><span>GraphQL</span>
+      <span>Docker</span><span>CI/CD</span><span>System Design</span><span>Testing</span>
+      <span>AWS</span><span>Microservices</span><span>Git</span><span>OAuth2</span>
+      <span>Webhooks</span><span>Gemini API</span><span>SQL Optimization</span>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about" id="about">
+    <div class="about__grid">
+      <div class="about__label">
+        <p class="eyebrow">01 / Approach</p>
+        <div class="about__photo" data-tilt>
+          <div class="about__photo-glow"></div>
+          <img src="/photo.png" alt="Oluwafemi Ajayi" loading="lazy">
+        </div>
+      </div>
+      <div class="about__body">
+        <p class="about__lead">
+          I work across the full stack, not one slice of it: interface, data
+          layer, backend logic, and the third-party integrations that connect
+          them. AI is one tool in that stack, not the whole identity.
+        </p>
+        <p>
+          Day to day that's often Next.js, TypeScript, and Supabase, but the
+          toolset shifts with the project: Python for scripting and backend
+          logic, plain HTML/CSS/JS when a framework would be overkill, Gemini
+          brought in only where reasoning genuinely helps. The work below is
+          a sample, not the ceiling, and the underlying skill set, building
+          interfaces that hold up, data models that don't break, and
+          integrations that fail gracefully, applies regardless of which
+          language or framework the job calls for.
+        </p>
+        <p>
+          Based in Nigeria, working with the FUTA Techies engineering community,
+          and building toward freelance partnerships where that same
+          under-the-hood rigor is the actual product.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORK ============ -->
+  <section class="work" id="work">
+    <p class="eyebrow eyebrow--center">02 / Selected Work</p>
+    <p class="work__note">A sample of that range in practice, different domains, same underlying approach to frontend, data, and integration work.</p>
+
+    <article class="project" data-project>
+      <div class="project__media">
+        <div class="device-frame" data-tilt>
+          <div class="device-frame__glow"></div>
+          <img src="/payflow-preview.svg" alt="PayFlow AI invoicing dashboard" loading="lazy">
+        </div>
+      </div>
+      <div class="project__info">
+        <p class="project__index">01</p>
+        <h3 class="project__title">PayFlow AI</h3>
+        <p class="project__tagline">AI-parsed invoicing, built on a real payment rail.</p>
+        <p class="project__desc">
+          A solo-built invoicing product for the DevCareer x Nomba hackathon.
+          Gemini turns a plain-language description into a structured invoice;
+          Nomba's Checkout API handles the money. The interesting part wasn't the
+          happy path. It was diagnosing a silent webhook failure down to Nomba
+          provisioning virtual accounts under the parent account instead of the
+          sub-account, then shipping a transactions-API fallback so payment
+          status stayed reliable while that got resolved upstream.
+        </p>
+        <ul class="project__facts">
+          <li>OAuth2 + HMAC-SHA256 webhook verification</li>
+          <li>Fallback reconciliation via polling when webhooks are unreliable</li>
+          <li>Supabase auth with row-level security</li>
+        </ul>
+        <div class="project__tags">
+          <span>Next.js 14</span><span>Supabase</span><span>Gemini 2.5</span><span>Nomba API</span>
+        </div>
+        <div class="project__links">
+          <a href="https://payflow-ai-beige.vercel.app" data-magnetic>Live product ↗</a>
+          <a href="https://github.com/oluwafemi667/payflow-ai" data-magnetic>Source ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project project--reverse" data-project>
+      <div class="project__media">
+        <div class="device-frame" data-tilt>
+          <div class="device-frame__glow device-frame__glow--alt"></div>
+          <img src="/mamaspace-preview.svg" alt="MamaSpace maternal wellness app" loading="lazy">
+        </div>
+      </div>
+      <div class="project__info">
+        <p class="project__index">02</p>
+        <h3 class="project__title">MamaSpace</h3>
+        <p class="project__tagline">An AI companion for new mothers, built for HelpMum Carecode.</p>
+        <p class="project__desc">
+          A maternal-wellness product centered on a Gemini-driven companion,
+          mood logging, and EPDS screening, designed to feel supportive rather
+          than clinical. Multilingual support and localized care resources made
+          it usable for the mothers it was actually built for, not just a demo
+          audience.
+        </p>
+        <ul class="project__facts">
+          <li>EPDS-based screening flow with sensitive-data handling</li>
+          <li>Multilingual support for Nigerian users</li>
+          <li>Google OAuth, mood-tracking history</li>
+        </ul>
+        <div class="project__tags">
+          <span>Next.js</span><span>Gemini API</span><span>Supabase</span><span>i18n</span>
+        </div>
+        <div class="project__links">
+          <a href="https://mamaspace.vercel.app" data-magnetic>Live product ↗</a>
+          <a href="https://github.com/oluwafemi667/mamaspace" data-magnetic>Source ↗</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ PRACTICE / SKILLS ============ -->
+  <section class="practice" id="practice">
+    <p class="eyebrow eyebrow--center">03 / Practice</p>
+    <div class="practice__grid">
+
+      <div class="practice__card" data-tilt>
+        <span class="practice__mono">product</span>
+        <h4>Frontend Engineering</h4>
+        <p>React and Next.js most often, plain HTML/CSS/JS when that's the better fit, interfaces built to hold real data.</p>
+      </div>
+
+      <div class="practice__card" data-tilt>
+        <span class="practice__mono">data</span>
+        <h4>Systems &amp; Persistence</h4>
+        <p>Supabase, Postgres, and Python for backend logic, schema design that survives change.</p>
+      </div>
+
+      <div class="practice__card" data-tilt>
+        <span class="practice__mono">reasoning</span>
+        <h4>Applied AI</h4>
+        <p>Gemini API integration for parsing, classification, and conversational flows.</p>
+      </div>
+
+      <div class="practice__card" data-tilt>
+        <span class="practice__mono">integration</span>
+        <h4>Third-Party APIs</h4>
+        <p>OAuth2, HMAC-verified webhooks, and the fallback logic for when they misbehave.</p>
+      </div>
+
+      <div class="practice__card" data-tilt>
+        <span class="practice__mono">craft</span>
+        <h4>Interface Detail</h4>
+        <p>Motion, type, and layout treated as engineering decisions, not decoration.</p>
+      </div>
+
+      <div class="practice__card" data-tilt>
+        <span class="practice__mono">reach</span>
+        <h4>Growth &amp; Distribution</h4>
+        <p>Positioning and outreach for early-stage products, the part after "it's live."</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+      <p class="eyebrow">04 / Contact</p>
+      <h2 class="contact__title">Have a system that needs building?</h2>
+      <p class="contact__sub">
+        Open to freelance engagements, collaborations, and technical partnerships.
+        I typically reply within a day.
+      </p>
+
+      <form class="contact__form" id="contactForm" name="contact" data-netlify="true">
+        <input type="hidden" name="form-name" value="contact">
+        <div class="field">
+          <input type="text" name="name" id="name" required>
+          <label for="name">Your name</label>
+        </div>
+        <div class="field">
+          <input type="email" name="email" id="email" required>
+          <label for="email">Email address</label>
+        </div>
+        <div class="field">
+          <input type="text" name="subject" id="subject" required>
+          <label for="subject">Subject</label>
+        </div>
+        <div class="field">
+          <textarea name="message" id="message" rows="4" required></textarea>
+          <label for="message">Tell me about the project</label>
+        </div>
+        <button type="submit" class="btn btn--primary btn--wide" data-magnetic>
+          <span>Send message</span>
+        </button>
+        <p class="form__note" id="formNote"></p>
+      </form>
+
+      <div class="contact__direct">
+        <a href="mailto:codedbyfemi@gmail.com" data-magnetic>codedbyfemi@gmail.com</a>
+        <div class="contact__social">
+          <a href="https://github.com/oluwafemi667" data-magnetic>GitHub</a>
+          <a href="https://www.linkedin.com/in/oluwafemi-ajayi-bb95713bb" data-magnetic>LinkedIn</a>
+          <a href="https://x.com/OluwafemiA57811" data-magnetic>X</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span>Oluwafemi Ajayi</span>
+  <span>© 2026</span>
+</footer>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
