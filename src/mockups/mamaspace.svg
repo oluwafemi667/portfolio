@@ -35,6 +35,7 @@
     <text x="50" y="356" class="d" font-size="15" fill="#E9E6DF">your mood, or just talk it through?</text>
   </g>
 
+  <g id="mm-mood">
   <rect x="30" y="420" width="900" height="160" rx="10" fill="#1B1E23" stroke="#262A30"/>
   <text x="50" y="450" class="m" font-size="11" fill="#9A9C9F">MOOD · LAST 7 DAYS</text>
   <polyline id="mm-line" points="70,520 130,500 190,530 250,505 310,515 370,495 430,510" fill="none" stroke="#262A30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -51,5 +52,6 @@
   <g id="mm-logged">
     <rect x="600" y="478" width="300" height="44" rx="22" fill="#14161A" stroke="#262A30"/>
     <text x="624" y="505" class="m" font-size="12" fill="#E9E6DF">✓ Mood logged for today</text>
+  </g>
   </g>
 </svg>

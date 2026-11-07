@@ -3,31 +3,58 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import payflowSvg from './mockups/payflow.svg?raw';
 import mamaspaceSvg from './mockups/mamaspace.svg?raw';
 
-/* The two project mockups are inline SVG so their parts can be animated.
-   Each one is a looping GSAP timeline that starts when the mockup scrolls
-   into view and resets when it leaves, so it plays again on every visit.
+/* The two project mockups are inline SVG, split into stacked layers.
+   Each one runs an endless GSAP loop while it is on screen:
+     1. the interface plays out (numbers count up, chat appears)
+     2. the pieces lift off the page into floating 3D layers
+     3. they hold, then settle back down
+     4. repeat
+   Scrolling away resets it, and scrolling back starts it again.
    All names and figures are sample data. */
+
+const NS = 'http://www.w3.org/2000/svg';
+const REF_WIDTH = 612; // desktop width the z values below were tuned for
 
 export function initMockups({ reduceMotion }){
   const pf = mount('mockPayflow', payflowSvg);
   const mm = mount('mockMamaspace', mamaspaceSvg);
-  if (reduceMotion) return; // static, finished state
+  if (reduceMotion) return; // static, finished, flat
   if (pf) run(pf, payflow(pf));
   if (mm) run(mm, mamaspace(mm));
 }
 
-function mount(id, svg){
+function mount(id, svgText){
   const host = document.getElementById(id);
   if (!host) return null;
-  host.innerHTML = svg;
-  return host.querySelector('svg');
+  host.innerHTML = svgText;
+  return host;
 }
 
-function run(svg, { tl, reset }){
+/* Move chosen groups out of the base SVG into their own SVG layers, stacked in a 3D stage. */
+function layerize(host, defs){
+  const base = host.querySelector('svg');
+  const stage = document.createElement('div');
+  stage.className = 'mock__stage';
+  host.appendChild(stage);
+  stage.appendChild(base);
+  base.classList.add('mock__base');
+  const layers = defs.map((d) => {
+    const s = document.createElementNS(NS, 'svg');
+    s.setAttribute('viewBox', base.getAttribute('viewBox'));
+    s.setAttribute('class', 'mock__layer');
+    s.setAttribute('aria-hidden', 'true');
+    d.sel.forEach((q) => { const n = base.querySelector(q); if (n) s.appendChild(n); });
+    stage.appendChild(s);
+    return { el: s, z: d.z };
+  });
+  return { stage, layers };
+}
+
+function run(host, { tl, reset }){
   tl.pause(0);
   reset();
   ScrollTrigger.create({
-    trigger: svg, start: 'top 85%', end: 'bottom 10%',
+    trigger: host, start: 'top 90%', end: 'bottom 5%',
     onEnter: () => { reset(); tl.restart(); },
     onEnterBack: () => { reset(); tl.restart(); },
     onLeave: () => { tl.pause(0); reset(); },
@@ -35,9 +62,33 @@ function run(svg, { tl, reset }){
   });
 }
 
+/* Lift the layers into 3D at time `at`, hold, then settle back. Returns the end time. */
+function lift(tl, stage, layers, host, at, hold){
+  const els = layers.map((l) => l.el);
+  const k = () => (host.clientWidth || REF_WIDTH) / REF_WIDTH;
+  const lifted = 'drop-shadow(0px 28px 26px rgba(0,0,0,.6))';
+  const flat = 'drop-shadow(0px 0px 0px rgba(0,0,0,0))';
+  tl.to(stage, { rotationX: 9, rotationY: -15, duration: 1.1, ease: 'power3.inOut' }, at)
+    .to(els, { z: (i) => layers[i].z * k(), filter: lifted, duration: 1.1, ease: 'power3.inOut' }, at)
+    .to(stage, { rotationX: 0, rotationY: 0, duration: 1, ease: 'power3.inOut' }, at + 1.1 + hold)
+    .to(els, { z: 0, filter: flat, duration: 1, ease: 'power3.inOut' }, at + 1.1 + hold);
+  return at + 2.1 + hold;
+}
+
+const resetLayers = (stage, layers) => {
+  gsap.set(stage, { rotationX: 0, rotationY: 0 });
+  gsap.set(layers.map((l) => l.el), { z: 0, filter: 'drop-shadow(0px 0px 0px rgba(0,0,0,0))' });
+};
+
 /* ---------------- PayFlow ---------------- */
-function payflow(svg){
-  const $ = (s) => svg.querySelector(s);
+function payflow(host){
+  const { stage, layers } = layerize(host, [
+    { sel: ['#pf-head'], z: 46 },
+    { sel: ['#pf-chart'], z: 84 },
+    { sel: ['#pf-hooks'], z: 118 },
+    { sel: ['#pf-tx'], z: 62 },
+  ]);
+  const $ = (s) => host.querySelector(s);
   const amount = $('#pf-amount'), status = $('#pf-status'), line = $('#pf-line');
   const len = line.getTotalLength();
   const money = (v) => '₦' + Math.round(v).toLocaleString('en-US') + '.00';
@@ -45,6 +96,7 @@ function payflow(svg){
   const counter = { v: 0 };
 
   const reset = () => {
+    resetLayers(stage, layers);
     counter.v = 0; amount.textContent = money(0);
     setStatus('STATUS: DRAFT', '#9A9C9F');
     gsap.set(line, { strokeDasharray: len, strokeDashoffset: len });
@@ -54,7 +106,7 @@ function payflow(svg){
     gsap.set('#pf-amount', { scale: 1, transformOrigin: 'left center' });
   };
 
-  const tl = gsap.timeline({ repeat: -1, repeatDelay: 3.5, defaults: { ease: 'power3.out' } });
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.2, defaults: { ease: 'power3.out' } });
   tl.call(reset, null, 0)
     .to(counter, { v: 248000, duration: 1.4, ease: 'power2.out', onUpdate: () => { amount.textContent = money(counter.v); } }, 0.2)
     .call(() => setStatus('STATUS: AWAITING PAYMENT', '#F2B84B'), null, 1.2)
@@ -69,21 +121,29 @@ function payflow(svg){
     .to('#pf-t1', { opacity: 1, x: 0, duration: 0.45 }, 3.8)
     .to('#pf-t2', { opacity: 1, x: 0, duration: 0.45 }, 4.0)
     .to('#pf-t3', { opacity: 1, x: 0, duration: 0.45 }, 4.2);
+  lift(tl, stage, layers, host, 5.2, 3.2);
   return { tl, reset };
 }
 
 /* ---------------- MamaSpace ---------------- */
-function mamaspace(svg){
-  const $ = (s) => svg.querySelector(s);
+function mamaspace(host){
+  const { stage, layers } = layerize(host, [
+    { sel: ['#mm-typing1', '#mm-b1'], z: 70 },
+    { sel: ['#mm-b2'], z: 112 },
+    { sel: ['#mm-typing2', '#mm-b3'], z: 84 },
+    { sel: ['#mm-mood'], z: 48 },
+  ]);
+  const $ = (s) => host.querySelector(s);
   const line = $('#mm-line');
   const len = line.getTotalLength();
-  const dots = svg.querySelectorAll('#mm-dots circle');
+  const dots = host.querySelectorAll('#mm-dots circle');
 
   const reset = () => {
+    resetLayers(stage, layers);
     gsap.set(['#mm-b1', '#mm-b3'], { opacity: 0, x: -18 });
     gsap.set('#mm-b2', { opacity: 0, x: 18 });
     gsap.set(['#mm-typing1', '#mm-typing2'], { opacity: 0 });
-    gsap.set(svg.querySelectorAll('.td'), { y: 0 });
+    gsap.set(host.querySelectorAll('.td'), { y: 0 });
     gsap.set(line, { strokeDasharray: len, strokeDashoffset: len });
     gsap.set(dots, { scale: 0, transformOrigin: '50% 50%' });
     gsap.set('#mm-ring', { opacity: 0 });
@@ -92,13 +152,13 @@ function mamaspace(svg){
 
   const typing = (tl, id, at, dur) => {
     tl.set(id, { opacity: 1 }, at);
-    svg.querySelectorAll(id + ' .td').forEach((d, i) => {
+    host.querySelectorAll(id + ' .td').forEach((d, i) => {
       tl.to(d, { y: -5, duration: 0.25, yoyo: true, repeat: Math.floor(dur / 0.5), ease: 'sine.inOut' }, at + i * 0.12);
     });
     tl.set(id, { opacity: 0 }, at + dur);
   };
 
-  const tl = gsap.timeline({ repeat: -1, repeatDelay: 3.5, defaults: { ease: 'power3.out' } });
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.2, defaults: { ease: 'power3.out' } });
   tl.call(reset, null, 0);
   typing(tl, '#mm-typing1', 0.3, 0.9);
   tl.to('#mm-b1', { opacity: 1, x: 0, duration: 0.5 }, 1.2)
@@ -109,5 +169,6 @@ function mamaspace(svg){
     .to(line, { strokeDashoffset: 0, duration: 1.1, ease: 'power2.inOut' }, 4.6)
     .fromTo('#mm-ring', { opacity: 1, attr: { r: 14 } }, { opacity: 0, attr: { r: 26 }, duration: 0.9, ease: 'power2.out' }, 5.8)
     .to('#mm-logged', { opacity: 1, y: 0, duration: 0.5 }, 6.1);
+  lift(tl, stage, layers, host, 7.2, 3.2);
   return { tl, reset };
 }
