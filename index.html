@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Oluwafemi Ajayi, Software Engineer</title>
-<meta name="description" content="Oluwafemi Ajayi is a full-stack engineer. Offline-first apps, payment integrations and AI features, built with Next.js, TypeScript and Postgres. Open to freelance work.">
+<meta name="description" content="Oluwafemi Ajayi is a full-stack engineer building web apps, payment integrations and AI features with Next.js, TypeScript and Postgres. Open to freelance work.">
 <link rel="canonical" href="https://ajayioluwafemi.netlify.app/">
 <meta name="theme-color" content="#0A0B0D">
 <meta property="og:title" content="Oluwafemi Ajayi, Software Engineer">
-<meta property="og:description" content="Full-stack engineer. Offline-first apps, payment integrations and AI features.">
+<meta property="og:description" content="Full-stack engineer. Web apps, payment integrations and AI features.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ajayioluwafemi.netlify.app/">
 <meta property="og:image" content="https://ajayioluwafemi.netlify.app/og.png">
@@ -45,6 +45,7 @@
   <!-- ============ HERO ============ -->
   <section class="hero">
     <canvas id="heroCanvas" class="hero__canvas"></canvas>
+    <div class="ledger" id="heroLedger" aria-hidden="true"></div>
     <div class="hero__inner">
       <p class="eyebrow" data-reveal>Full-Stack Engineering · Systems · Applied AI</p>
       <h1 class="hero__title">
@@ -64,6 +65,7 @@
           <span>Download résumé</span>
         </a>
       </div>
+      <p class="hero__avail" data-reveal><span class="hero__avail-dot"></span>Open to freelance projects</p>
     </div>
     <div class="hero__scroll">
       <span></span>
@@ -74,11 +76,13 @@
   <!-- ============ SIGNAL STRIP ============ -->
   <section class="strip">
     <div class="strip__track" id="stripTrack">
-      <span>TypeScript</span><span>JavaScript</span><span>Python</span><span>Next.js</span>
-      <span>React</span><span>Node.js</span><span>Tailwind CSS</span><span>HTML/CSS</span>
-      <span>Supabase</span><span>PostgreSQL</span><span>Row Level Security</span><span>REST APIs</span>
-      <span>OAuth2</span><span>Webhooks</span><span>Offline-first</span><span>Gemini API</span>
-      <span>Unit testing</span><span>Git</span><span>Vercel</span>
+      <span>JavaScript</span><span>TypeScript</span><span>Python</span><span>Next.js</span>
+      <span>React</span><span>HTML/CSS</span><span>Node.js</span><span>Tailwind CSS</span>
+      <span>Supabase</span><span>PostgreSQL</span><span>Row Level Security</span><span>Redis</span>
+      <span>REST APIs</span><span>GraphQL</span><span>Docker</span><span>CI/CD</span>
+      <span>System Design</span><span>Testing</span><span>AWS</span><span>Microservices</span>
+      <span>Git</span><span>OAuth2</span><span>Webhooks</span><span>AI APIs</span>
+      <span>SQL Optimization</span>
     </div>
   </section>
 
@@ -103,8 +107,8 @@
         <p>
           Most of my work is Next.js, TypeScript and Supabase. I use Python for
           scripts and backend logic, and plain HTML, CSS and JS when a framework
-          would be overkill. I add AI, such as Gemini, only where it does a job
-          ordinary code can't.
+          would be overkill. I add AI only where it does a job ordinary code
+          can't, and I pick the model that fits the project and its budget.
         </p>
         <p>
           I care about the unglamorous parts: data models that don't break,
@@ -146,11 +150,12 @@
         <h3 class="project__title">Farmledger</h3>
         <p class="project__tagline">Farm management that keeps working when the signal drops.</p>
         <p class="project__desc">
-          An offline-first web app built for a layer farm. Farmhands log eggs,
-          feed, deaths, vaccinations and sick birds on their phones. Entries
-          save on the device and sync later without duplicates. Owners get
-          alerts, flocks, vaccine schedules, stock, sales, invoices and profit
-          per flock in one place.
+          A farm management web app built for a layer farm, designed to keep
+          working when the connection doesn't. Farmhands log eggs, feed,
+          deaths, vaccinations and sick birds on their phones. Entries save on
+          the device and sync later without duplicates. Owners get alerts,
+          flocks, vaccine schedules, stock, sales, invoices and profit per
+          flock in one place.
         </p>
         <ul class="project__facts">
           <li>Each entry gets an ID on the device and the server ignores repeats, so a retry never records it twice</li>
@@ -158,7 +163,7 @@
           <li>135 unit tests and 134 database checks</li>
         </ul>
         <div class="project__tags">
-          <span>Next.js 14</span><span>TypeScript</span><span>Supabase</span><span>Postgres RLS</span><span>Offline-first</span>
+          <span>Next.js 14</span><span>TypeScript</span><span>Tailwind CSS</span><span>Supabase</span><span>Postgres RLS</span>
         </div>
         <div class="project__links">
           <a href="https://farmledger-three.vercel.app" data-magnetic>Live demo ↗</a>
@@ -170,9 +175,9 @@
 
     <article class="project project--reverse" data-project>
       <div class="project__media">
-        <div class="device-frame" data-tilt>
+        <div class="device-frame" data-tilt role="img" aria-label="PayFlow AI invoicing dashboard: an invoice moving from awaiting payment to paid, a webhook log that falls back to polling, and a recent transactions list. Sample data.">
           <div class="device-frame__glow"></div>
-          <img src="/payflow-preview.svg" alt="PayFlow AI invoicing dashboard" width="960" height="640" loading="lazy" decoding="async">
+          <div class="mock" id="mockPayflow"></div>
         </div>
       </div>
       <div class="project__info">
@@ -205,9 +210,9 @@
 
     <article class="project" data-project>
       <div class="project__media">
-        <div class="device-frame" data-tilt>
+        <div class="device-frame" data-tilt role="img" aria-label="MamaSpace maternal wellness app: a short chat with the Mama companion followed by a seven-day mood log. Sample messages only.">
           <div class="device-frame__glow device-frame__glow--alt"></div>
-          <img src="/mamaspace-preview.svg" alt="MamaSpace maternal wellness app" width="960" height="640" loading="lazy" decoding="async">
+          <div class="mock" id="mockMamaspace"></div>
         </div>
       </div>
       <div class="project__info">
@@ -255,21 +260,21 @@
       </div>
 
       <div class="practice__card" data-tilt>
-        <span class="practice__mono">offline</span>
-        <h4>Offline-First Apps</h4>
-        <p>Local queues, safe retries and sync that never records an entry twice.</p>
+        <span class="practice__mono">reasoning</span>
+        <h4>Applied AI</h4>
+        <p>LLM integration for parsing, classification and conversational flows, used where plain code can't do the job.</p>
       </div>
 
       <div class="practice__card" data-tilt>
         <span class="practice__mono">integration</span>
-        <h4>APIs and Payments</h4>
+        <h4>Third-Party APIs</h4>
         <p>OAuth2, HMAC-verified webhooks, and fallback logic for when they misbehave.</p>
       </div>
 
       <div class="practice__card" data-tilt>
-        <span class="practice__mono">reasoning</span>
-        <h4>Applied AI</h4>
-        <p>Gemini for parsing invoices and for conversational flows, used where plain code can't do the job.</p>
+        <span class="practice__mono">craft</span>
+        <h4>Interface Detail</h4>
+        <p>Motion, type and layout treated as engineering decisions, not decoration.</p>
       </div>
 
       <div class="practice__card" data-tilt>

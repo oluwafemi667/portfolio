@@ -1,0 +1,55 @@
+<svg viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect width="960" height="640" fill="#14161A"/>
+  <rect width="960" height="56" fill="#1B1E23"/>
+  <circle cx="30" cy="28" r="6" fill="#F2B84B"/>
+  <circle cx="52" cy="28" r="6" fill="#6E56CF"/>
+  <circle cx="74" cy="28" r="6" fill="#E9E6DF" opacity=".4"/>
+
+  <text x="30" y="110" class="m" font-size="12" fill="#9A9C9F">MAMA · AI COMPANION</text>
+
+  <g id="mm-typing1" opacity="0">
+    <rect x="30" y="140" width="84" height="44" rx="14" fill="#1B1E23"/>
+    <circle class="td" cx="56" cy="162" r="4" fill="#9A9C9F"/>
+    <circle class="td" cx="72" cy="162" r="4" fill="#9A9C9F"/>
+    <circle class="td" cx="88" cy="162" r="4" fill="#9A9C9F"/>
+  </g>
+  <g id="mm-b1">
+    <rect x="30" y="140" width="560" height="60" rx="14" fill="#1B1E23"/>
+    <text x="50" y="176" class="d" font-size="16" fill="#E9E6DF">How are you feeling today?</text>
+  </g>
+
+  <g id="mm-b2">
+    <rect x="370" y="220" width="560" height="60" rx="14" fill="#6E56CF" opacity=".85"/>
+    <text x="390" y="256" class="d" font-size="16" fill="#0A0B0D">A little overwhelmed, honestly.</text>
+  </g>
+
+  <g id="mm-typing2" opacity="0">
+    <rect x="30" y="300" width="84" height="44" rx="14" fill="#1B1E23"/>
+    <circle class="td" cx="56" cy="322" r="4" fill="#9A9C9F"/>
+    <circle class="td" cx="72" cy="322" r="4" fill="#9A9C9F"/>
+    <circle class="td" cx="88" cy="322" r="4" fill="#9A9C9F"/>
+  </g>
+  <g id="mm-b3">
+    <rect x="30" y="300" width="620" height="80" rx="14" fill="#1B1E23"/>
+    <text x="50" y="330" class="d" font-size="15" fill="#E9E6DF">That's a lot to carry. Want to log</text>
+    <text x="50" y="356" class="d" font-size="15" fill="#E9E6DF">your mood, or just talk it through?</text>
+  </g>
+
+  <rect x="30" y="420" width="900" height="160" rx="10" fill="#1B1E23" stroke="#262A30"/>
+  <text x="50" y="450" class="m" font-size="11" fill="#9A9C9F">MOOD · LAST 7 DAYS</text>
+  <polyline id="mm-line" points="70,520 130,500 190,530 250,505 310,515 370,495 430,510" fill="none" stroke="#262A30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g id="mm-dots">
+    <circle cx="70" cy="520" r="14" fill="#F2B84B"/>
+    <circle cx="130" cy="500" r="14" fill="#6E56CF"/>
+    <circle cx="190" cy="530" r="14" fill="#E9E6DF" opacity=".5"/>
+    <circle cx="250" cy="505" r="14" fill="#6E56CF"/>
+    <circle cx="310" cy="515" r="14" fill="#F2B84B"/>
+    <circle cx="370" cy="495" r="14" fill="#6E56CF"/>
+    <circle id="mm-today" cx="430" cy="510" r="14" fill="#E9E6DF" opacity=".5"/>
+  </g>
+  <circle id="mm-ring" cx="430" cy="510" r="14" fill="none" stroke="#F2B84B" stroke-width="2"/>
+  <g id="mm-logged">
+    <rect x="600" y="478" width="300" height="44" rx="22" fill="#14161A" stroke="#262A30"/>
+    <text x="624" y="505" class="m" font-size="12" fill="#E9E6DF">✓ Mood logged for today</text>
+  </g>
+</svg>

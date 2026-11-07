@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { initMockups } from './mockups.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,31 +95,58 @@ if (track){
 /* ============================================================
    GSAP SCROLL REVEALS
 ============================================================ */
-gsap.utils.toArray('[data-reveal]').forEach((el, i) => {
-  gsap.to(el, {
-    opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: i * 0.08,
-    scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+/* Every reveal replays each time it re-enters the viewport, scrolling down or up.
+   toggleActions: onEnter, onLeave, onEnterBack, onLeaveBack. */
+const REPLAY = 'play reverse play reverse';
+if (reduceMotion){
+  gsap.set('[data-reveal]', { opacity: 1, y: 0 });
+} else {
+  gsap.utils.toArray('[data-reveal]').forEach((el, i) => {
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: i * 0.08,
+      scrollTrigger: { trigger: el, start: 'top 92%', end: 'bottom 8%', toggleActions: REPLAY },
+    });
   });
-});
-gsap.utils.toArray('.project').forEach((el) => {
-  gsap.from(el, {
-    opacity: 0, y: 40, duration: 1, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 80%', once: true },
+  gsap.utils.toArray('.project').forEach((el) => {
+    gsap.from(el, {
+      opacity: 0, y: 48, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 82%', end: 'bottom 12%', toggleActions: REPLAY },
+    });
   });
-});
-gsap.utils.toArray('.practice__card').forEach((el, i) => {
-  gsap.from(el, {
-    opacity: 0, y: 24, duration: 0.8, delay: (i % 3) * 0.05, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+  gsap.utils.toArray('.practice__card').forEach((el, i) => {
+    gsap.from(el, {
+      opacity: 0, y: 28, duration: 0.8, delay: (i % 3) * 0.06, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 92%', end: 'bottom 8%', toggleActions: REPLAY },
+    });
   });
-});
+  // The photo has a tilt effect that owns its transform, so it only fades.
+  gsap.from('.about__photo', {
+    opacity: 0, duration: 1, ease: 'power2.out',
+    scrollTrigger: { trigger: '.about__photo', start: 'top 88%', end: 'bottom 10%', toggleActions: REPLAY },
+  });
+  gsap.utils.toArray('.about__body, .contact__inner > *').forEach((el) => {
+    gsap.from(el, {
+      opacity: 0, y: 32, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', end: 'bottom 10%', toggleActions: REPLAY },
+    });
+  });
+  // Layout shifts after fonts and images load would leave triggers misplaced.
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+}
+
+/* PayFlow and MamaSpace mockups: inline SVG with replaying animation */
+initMockups({ reduceMotion });
 
 /* ============================================================
-   HERO SCULPTURE: loaded after first paint so Three.js (the
-   bulk of the bundle) never blocks the page
+   HERO. One line decides which one the page uses:
+     'ledger'    a live ledger of entries from the three projects (default)
+     'sculpture' the original glass sculpture (Three.js)
+   Either one loads after first paint, so the page is readable first.
 ============================================================ */
+const HERO = 'ledger';
 const loadHero = () => {
-  import('./hero.js').then((m) => m.initHero()).catch(() => {
+  const mod = HERO === 'sculpture' ? import('./hero-sculpture.js') : import('./hero-ledger.js');
+  mod.then((m) => m.initHero()).catch(() => {
     document.getElementById('heroCanvas')?.classList.add('is-failed');
   });
 };
@@ -164,30 +192,35 @@ else setTimeout(loadHero, 400);
     return;
   }
 
-  let alive = false;
-  async function cycle(){
-    while (alive){
-      queue.innerHTML = ''; db.innerHTML = ''; foot.textContent = ' ';
+  // Each run gets a number. Leaving the screen bumps it, so an old loop that is
+  // still sleeping stops instead of running alongside the new one.
+  let gen = 0, playing = false;
+  async function cycle(g){
+    while (g === gen){
+      queue.innerHTML = ''; db.innerHTML = ''; foot.textContent = '\u00a0';
       setStatus('No signal', false);
       await sleep(600);
       const items = [];
       for (const e of entries){
-        if (!alive) return;
+        if (g !== gen) return;
         const li = row(e, 'is-waiting', 'waiting');
         queue.appendChild(li); items.push(li);
         await sleep(700);
       }
       await sleep(900);
+      if (g !== gen) return;
       setStatus('Signal back, syncing', true);
       await sleep(600);
       for (let i = 0; i < entries.length; i++){
-        if (!alive) return;
+        if (g !== gen) return;
         items[i].className = 'is-sent'; items[i].querySelector('em').textContent = 'sent';
         db.appendChild(row(entries[i], 'is-saved', 'saved'));
         await sleep(650);
       }
+      if (g !== gen) return;
       setStatus('Online', true);
       await sleep(900);
+      if (g !== gen) return;
       foot.textContent = 'Retry of a41f: ignored, already stored.';
       const dupe = db.firstElementChild;
       dupe.classList.add('is-ping');
@@ -195,10 +228,10 @@ else setTimeout(loadHero, 400);
       dupe.classList.remove('is-ping');
     }
   }
-  // Run only while the diagram is on screen.
+  // Plays from the start every time the diagram comes into view, and stops when it leaves.
   new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting && !alive){ alive = true; cycle(); }
-    else if (!entry.isIntersecting){ alive = false; }
+    if (entry.isIntersecting && !playing){ playing = true; cycle(++gen); }
+    else if (!entry.isIntersecting && playing){ playing = false; gen++; }
   }, { threshold: 0.35 }).observe(queue.closest('.sync'));
 })();
 
