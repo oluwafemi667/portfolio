@@ -134,18 +134,38 @@ if (reduceMotion){
   window.addEventListener('load', () => ScrollTrigger.refresh());
 }
 
+/* How I work: cards fan out with the scroll and fold back on the way up. */
+if (!reduceMotion){
+  gsap.matchMedia().add('(min-width: 901px)', () => {
+    const cards = gsap.utils.toArray('.how__card');
+    if (!cards.length) return;
+    const mid = (cards.length - 1) / 2;
+    cards.forEach((c, i) => { c.style.zIndex = cards.length - i; });
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: '.how', start: 'top top', end: 'bottom bottom', scrub: 0.6 },
+    });
+    tl.fromTo(cards,
+      { x: (i) => (i - mid) * 10, y: (i) => i * 14, rotation: (i) => (i - mid) * 3, scale: (i) => 1 - i * 0.025 },
+      { x: (i) => (i - mid) * 300, y: 0, rotation: 0, scale: 1, ease: 'power2.inOut', duration: 1 })
+      .to({}, { duration: 0.35 });
+  });
+}
+
 /* PayFlow and MamaSpace mockups: inline SVG with replaying animation */
 initMockups({ reduceMotion });
 
 /* ============================================================
    HERO. One line decides which one the page uses:
-     'ledger'    a live ledger of entries from the three projects (default)
+     'system'    exploded view of a web app, requests looping through it (default)
+     'ledger'    a live ledger of sample entries (DOM and CSS 3D)
      'sculpture' the original glass sculpture (Three.js)
    Either one loads after first paint, so the page is readable first.
 ============================================================ */
-const HERO = 'ledger';
+const HERO = 'system';
 const loadHero = () => {
-  const mod = HERO === 'sculpture' ? import('./hero-sculpture.js') : import('./hero-ledger.js');
+  const mod = HERO === 'sculpture' ? import('./hero-sculpture.js')
+    : HERO === 'ledger' ? import('./hero-ledger.js')
+    : import('./hero-system.js');
   mod.then((m) => m.initHero()).catch(() => {
     document.getElementById('heroCanvas')?.classList.add('is-failed');
   });

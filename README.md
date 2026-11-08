@@ -77,3 +77,10 @@ const HERO = 'ledger';   // or 'sculpture' for the original Three.js glass sculp
 
 - Add case-study detail for each project.
 - Run Lighthouse against the live site.
+
+## Hero and How I work (latest)
+
+- `src/main.js` has one line, `const HERO = 'system'`. Options: `'system'` (exploded web app, requests loop through it, default), `'ledger'`, `'sculpture'`.
+- `src/hero-system.js` is Three.js, loaded after first paint. It loops while on screen, pauses off screen and replays its entrance on return.
+- The How I work section (`#how`) fans four cards out with the scroll on desktop and folds them back when scrolling up. Phones and reduced motion get a plain list. Edit the wording in `index.html`.
+- PayFlow and MamaSpace mockups loop forever while visible and restart on every re-entry.
