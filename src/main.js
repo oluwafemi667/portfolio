@@ -222,11 +222,38 @@ else setTimeout(loadHero, 400);
     return;
   }
 
+  // The panels lift off the card into floating 3D layers, hold, then settle.
+  const frame = queue.closest('.sync');
+  const inner = frame.querySelector('.sync__inner');
+  const parts = [
+    { el: frame.querySelector('.sync__bar'), z: 46 },
+    { el: frame.querySelectorAll('.sync__col')[0], z: 78 },
+    { el: frame.querySelectorAll('.sync__col')[1], z: 112 },
+    { el: frame.querySelector('.sync__foot'), z: 60 },
+  ];
+  const els = parts.map((x) => x.el);
+  let liftTl = null;
+  const flat = { z: 0, backgroundColor: 'rgba(17,18,22,0)', boxShadow: '0 0 0 rgba(0,0,0,0)' };
+  const resetLift = () => {
+    if (liftTl){ liftTl.kill(); liftTl = null; }
+    gsap.set(inner, { rotationX: 0, rotationY: 0 });
+    gsap.set(els, flat);
+  };
+  const lift = () => new Promise((resolve) => {
+    const k = (frame.clientWidth || 560) / 560;
+    liftTl = gsap.timeline({ onComplete: resolve });
+    liftTl.to(inner, { rotationX: 9, rotationY: -15, duration: 1.1, ease: 'power3.inOut' }, 0)
+      .to(els, { z: (i) => parts[i].z * k, backgroundColor: 'rgba(17,18,22,0.94)', boxShadow: '0 26px 30px rgba(0,0,0,.55)', duration: 1.1, ease: 'power3.inOut' }, 0)
+      .to(inner, { rotationX: 0, rotationY: 0, duration: 1, ease: 'power3.inOut' }, 3.3)
+      .to(els, { ...flat, duration: 1, ease: 'power3.inOut' }, 3.3);
+  });
+
   // Each run gets a number. Leaving the screen bumps it, so an old loop that is
   // still sleeping stops instead of running alongside the new one.
   let gen = 0, playing = false;
   async function cycle(g){
     while (g === gen){
+      resetLift();
       queue.innerHTML = ''; db.innerHTML = ''; foot.textContent = '\u00a0';
       setStatus('No signal', false);
       await sleep(600);
@@ -254,14 +281,17 @@ else setTimeout(loadHero, 400);
       foot.textContent = 'Retry of a41f: ignored, already stored.';
       const dupe = db.firstElementChild;
       dupe.classList.add('is-ping');
-      await sleep(3400);
+      await sleep(900);
+      if (g !== gen) return;
+      await lift();
       dupe.classList.remove('is-ping');
+      await sleep(600);
     }
   }
   // Plays from the start every time the diagram comes into view, and stops when it leaves.
   new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting && !playing){ playing = true; cycle(++gen); }
-    else if (!entry.isIntersecting && playing){ playing = false; gen++; }
+    else if (!entry.isIntersecting && playing){ playing = false; gen++; resetLift(); }
   }, { threshold: 0.35 }).observe(queue.closest('.sync'));
 })();
 

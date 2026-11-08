@@ -479,3 +479,9 @@ h1,h2,h3,h4{ font-family: var(--display); font-weight:400; margin:0; }
   .fx--about{ width:320px; height:320px; }
   .fx--contact{ height:230px; }
 }
+
+/* Farmledger diagram: layers can float off the card */
+.sync{ overflow:visible; perspective:1300px; }
+.sync__inner, .sync__cols{ transform-style:preserve-3d; }
+.sync__bar, .sync__col, .sync__foot{ border-radius:10px; }
+.sync__col{ padding:10px; margin:-10px; }
