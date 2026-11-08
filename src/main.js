@@ -236,15 +236,15 @@ else setTimeout(loadHero, 400);
   const flat = { z: 0, backgroundColor: 'rgba(17,18,22,0)', boxShadow: '0 0 0 rgba(0,0,0,0)' };
   const resetLift = () => {
     if (liftTl){ liftTl.kill(); liftTl = null; }
-    gsap.set(inner, { rotationX: 0, rotationY: 0 });
+    gsap.set(inner, { rotationX: 0, rotationY: 0, scale: 1 });
     gsap.set(els, flat);
   };
   const lift = () => new Promise((resolve) => {
     const k = (frame.clientWidth || 560) / 560;
     liftTl = gsap.timeline({ onComplete: resolve });
-    liftTl.to(inner, { rotationX: 9, rotationY: -15, duration: 1.1, ease: 'power3.inOut' }, 0)
+    liftTl.to(inner, { rotationX: 9, rotationY: -15, scale: 0.92, duration: 1.1, ease: 'power3.inOut' }, 0)
       .to(els, { z: (i) => (parts[i].z + 80) * k, backgroundColor: 'rgba(17,18,22,0.94)', boxShadow: '0 26px 30px rgba(0,0,0,.55)', duration: 1.1, ease: 'power3.inOut' }, 0)
-      .to(inner, { rotationX: 0, rotationY: 0, duration: 1, ease: 'power3.inOut' }, 3.3)
+      .to(inner, { rotationX: 0, rotationY: 0, scale: 1, duration: 1, ease: 'power3.inOut' }, 3.3)
       .to(els, { ...flat, duration: 1, ease: 'power3.inOut' }, 3.3);
   });
 

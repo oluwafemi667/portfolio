@@ -68,15 +68,15 @@ function lift(tl, stage, layers, host, at, hold){
   const k = () => (host.clientWidth || REF_WIDTH) / REF_WIDTH;
   const lifted = 'drop-shadow(0px 28px 26px rgba(0,0,0,.6))';
   const flat = 'drop-shadow(0px 0px 0px rgba(0,0,0,0))';
-  tl.to(stage, { rotationX: 9, rotationY: -15, duration: 1.1, ease: 'power3.inOut' }, at)
+  tl.to(stage, { rotationX: 9, rotationY: -15, scale: 0.92, duration: 1.1, ease: 'power3.inOut' }, at)
     .to(els, { z: (i) => layers[i].z * k(), filter: lifted, duration: 1.1, ease: 'power3.inOut' }, at)
-    .to(stage, { rotationX: 0, rotationY: 0, duration: 1, ease: 'power3.inOut' }, at + 1.1 + hold)
+    .to(stage, { rotationX: 0, rotationY: 0, scale: 1, duration: 1, ease: 'power3.inOut' }, at + 1.1 + hold)
     .to(els, { z: 0, filter: flat, duration: 1, ease: 'power3.inOut' }, at + 1.1 + hold);
   return at + 2.1 + hold;
 }
 
 const resetLayers = (stage, layers) => {
-  gsap.set(stage, { rotationX: 0, rotationY: 0 });
+  gsap.set(stage, { rotationX: 0, rotationY: 0, scale: 1 });
   gsap.set(layers.map((l) => l.el), { z: 0, filter: 'drop-shadow(0px 0px 0px rgba(0,0,0,0))' });
 };
 
