@@ -485,3 +485,7 @@ h1,h2,h3,h4{ font-family: var(--display); font-weight:400; margin:0; }
 .sync__inner, .sync__cols{ transform-style:preserve-3d; }
 .sync__bar, .sync__col, .sync__foot{ border-radius:10px; }
 .sync__col{ padding:10px; margin:-10px; }
+
+/* the glow is decoration only: it must never catch clicks, and stays near its card */
+.device-frame__glow{ pointer-events:none; }
+.sync .device-frame__glow{ inset:-8%; border-radius:24px; }
