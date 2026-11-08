@@ -65,10 +65,10 @@ function run(host, { tl, reset }){
 /* Lift the layers into 3D at time `at`, hold, then settle back. Returns the end time. */
 function lift(tl, stage, layers, host, at, hold){
   const els = layers.map((l) => l.el);
-  const k = () => (host.clientWidth || REF_WIDTH) / REF_WIDTH;
+  const k = () => Math.min((host.clientWidth || REF_WIDTH) / REF_WIDTH, 1);
   const lifted = 'drop-shadow(0px 28px 26px rgba(0,0,0,.6))';
   const flat = 'drop-shadow(0px 0px 0px rgba(0,0,0,0))';
-  tl.to(stage, { rotationX: 9, rotationY: -15, scale: 0.92, duration: 1.1, ease: 'power3.inOut' }, at)
+  tl.to(stage, { rotationX: 8, rotationY: -12, scale: 0.88, duration: 1.1, ease: 'power3.inOut' }, at)
     .to(els, { z: (i) => layers[i].z * k(), filter: lifted, duration: 1.1, ease: 'power3.inOut' }, at)
     .to(stage, { rotationX: 0, rotationY: 0, scale: 1, duration: 1, ease: 'power3.inOut' }, at + 1.1 + hold)
     .to(els, { z: 0, filter: flat, duration: 1, ease: 'power3.inOut' }, at + 1.1 + hold);

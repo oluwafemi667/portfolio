@@ -228,7 +228,7 @@ else setTimeout(loadHero, 400);
   const parts = [
     { el: frame.querySelector('.sync__bar'), z: 46 },
     { el: frame.querySelectorAll('.sync__col')[0], z: 78 },
-    { el: frame.querySelectorAll('.sync__col')[1], z: 112 },
+    { el: frame.querySelectorAll('.sync__col')[1], z: 96 },
     { el: frame.querySelector('.sync__foot'), z: 60 },
   ];
   const els = parts.map((x) => x.el);
@@ -242,8 +242,8 @@ else setTimeout(loadHero, 400);
   const lift = () => new Promise((resolve) => {
     const k = (frame.clientWidth || 560) / 560;
     liftTl = gsap.timeline({ onComplete: resolve });
-    liftTl.to(inner, { rotationX: 9, rotationY: -15, scale: 0.92, duration: 1.1, ease: 'power3.inOut' }, 0)
-      .to(els, { z: (i) => (parts[i].z + 80) * k, backgroundColor: 'rgba(17,18,22,0.94)', boxShadow: '0 26px 30px rgba(0,0,0,.55)', duration: 1.1, ease: 'power3.inOut' }, 0)
+    liftTl.to(inner, { rotationX: 8, rotationY: -11, scale: 0.86, duration: 1.1, ease: 'power3.inOut' }, 0)
+      .to(els, { z: (i) => (parts[i].z + 70) * Math.min(k, 1), backgroundColor: 'rgba(17,18,22,0.94)', boxShadow: '0 26px 30px rgba(0,0,0,.55)', duration: 1.1, ease: 'power3.inOut' }, 0)
       .to(inner, { rotationX: 0, rotationY: 0, scale: 1, duration: 1, ease: 'power3.inOut' }, 3.3)
       .to(els, { ...flat, duration: 1, ease: 'power3.inOut' }, 3.3);
   });
