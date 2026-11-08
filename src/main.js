@@ -151,6 +151,16 @@ if (!reduceMotion){
   });
 }
 
+/* Ambient 3D in About and Contact: each loads when its section is near the screen. */
+document.querySelectorAll('[data-fx]').forEach((host) => {
+  const io = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    io.disconnect();
+    import('./orbs.js').then((m) => (host.dataset.fx === 'about' ? m.aboutOrbit(host) : m.contactBlob(host))).catch(() => {});
+  }, { rootMargin: '400px' });
+  io.observe(host);
+});
+
 /* PayFlow and MamaSpace mockups: inline SVG with replaying animation */
 initMockups({ reduceMotion });
 

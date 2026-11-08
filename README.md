@@ -84,3 +84,9 @@ const HERO = 'ledger';   // or 'sculpture' for the original Three.js glass sculp
 - `src/hero-system.js` is Three.js, loaded after first paint. It loops while on screen, pauses off screen and replays its entrance on return.
 - The How I work section (`#how`) fans four cards out with the scroll on desktop and folds them back when scrolling up. Phones and reduced motion get a plain list. Edit the wording in `index.html`.
 - PayFlow and MamaSpace mockups loop forever while visible and restart on every re-entry.
+
+## Ambient scenes and mobile (latest)
+
+- `src/orbs.js` holds two lazy scenes: a glass blob above the contact heading and a ring gyroscope around the About portrait. Each loads when its section is near the screen, runs only while visible, and replays its entrance on every return. Reduced motion gets a still frame.
+- `src/noise.js` is the shared noise shader used by the blob and the old sculpture hero.
+- On phones the hero scene sits in its own area under the text, clear of the tech strip, and How I work is a stack of sticky cards.

@@ -107,8 +107,8 @@ export function initHero(){
     camera.aspect = w / h; camera.updateProjectionMatrix();
     const unit = 7.45 / h;            // world units per pixel at the scene depth
     if (w < 800){
-      rig.scale.setScalar(Math.min(0.62, w / 700));
-      rig.position.set(0, -(h / 2 - 215) * unit, 0);
+      rig.scale.setScalar(Math.min(0.54, w / 760));
+      rig.position.set(0, -(h / 2 - 285) * unit, 0);
     } else {
       rig.scale.setScalar(Math.min(0.86, w / 1500 + 0.1));
       rig.position.set(w * 0.2 * unit, -0.2, 0);
